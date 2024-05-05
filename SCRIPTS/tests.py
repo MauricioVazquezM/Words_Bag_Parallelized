@@ -1,57 +1,65 @@
 """
 SECTION A): LIBRARIES
 """
-
 import pandas as pd
-from nltk.corpus import stopwords
-import unicodedata
-from collections import Counter
+import numpy as np
 import re
 import nltk
-nltk.download('stopwords')
-
+import matplotlib.pyplot as plt
 
 """
 SECTION B): AUXILIAR FUNCTIONS
 """
 
-### Reading function
-def read_and_clean(file_name):
-   
-   # Get English stop words
-    stop_words = set(stopwords.words('english'))
-   
-   # opening the file
-    with open(file_name, 'r', encoding='utf-8') as file:
+etiquetas = ["libro1",
+             "libro2",
+             "libro3",
+             "libro4",
+             "libro5",
+             "libro6"]
+corpus = []
 
-    # Reading the whole file and split by comas
-        contents = file.read().lower().replace('\n', '').split(',')
-    
-    # Filtering out stop words
-    words_filtered = [word for word in contents if word not in stop_words]
+for etiqueta in etiquetas:
+  archivo = open(etiqueta + ".txt", "r")
+  corpus.append(archivo.read())
+  archivo.close()
 
-    # Returning words
-    return words_filtered
+etiquetas = ["dicke..",
+             "sha...",
+             "libro3",
+             "libro4",
+             "libro5",
+             "libro6"]
 
-
-### Counting words function
-def count_words(file_name):
-  
-  # Using our read function implemented above
-  text = read_and_clean(file_name)
-
-  # Counting each word
-  word_count = Counter(text)
-
-  # Storing on a dataframe
-  df = pd.DataFrame(word_count.items(), columns=['Word', 'Count'])
-
-  # Returning count dataframe
-  return df
+corpus = np.array(corpus)
+df_corpus = pd.DataFrame({"documento": corpus,
+                          "categoria": etiquetas})
+df_corpus
 
 
 """
 SECTION C): CODE EXECUTION
 """
 
+from sklearn.feature_extraction.text import CountVectorizer
+# bolsa de palabras en matriz dispersa
+count_vectorizer = CountVectorizer(min_df=0.0, max_df=1.0)
+matriz_conteo = count_vectorizer.fit_transform(corpus)
+matriz_conteo
 
+# ver valores diferentes de cero en la matriz dispersa
+print(matriz_conteo)
+
+# ver la representación densa
+matriz_conteo = matriz_conteo.toarray()
+matriz_conteo
+
+
+# obten todas las palabras únicas del corpus
+vocabulario = count_vectorizer.get_feature_names_out()
+# muestra los vectores de características del documento
+pd.DataFrame(matriz_conteo, columns=vocabulario)
+
+print(len(vocabulario), vocabulario)
+
+np.savetxt("vocab.txt", vocabulario, fmt="%s", delimiter=",")
