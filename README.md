@@ -26,8 +26,8 @@ Given a list of filenames containing texts, a filename containing the vocabulary
 2. Initialize a Bag of Words matrix with rows for each text file and columns for each word in the vocabulary.
 3. Assign a process to each text file to count the occurrences of words in parallel.
   - For each text file:
-  - Read the text file.
-  - Tokenize the text into words.
-  - Count the occurrences of each word in the vocabulary.
-  - Update the corresponding row in the Bag of Words matrix.
+    - Read the text file.
+    - Tokenize the text into words.
+    - Count the occurrences of each word in the vocabulary.
+    - Update the corresponding row in the Bag of Words matrix.
 4. Write the Bag of Words matrix to a CSV file.
