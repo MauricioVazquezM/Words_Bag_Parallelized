@@ -53,26 +53,61 @@ void readVocabulary(const string& filename, vector<string>& vocabulary) {
     FUNCTION: Count words
 */
 void countWords(const vector<string>& files, const vector<string>& vocabulary, vector<vector<string>>& matriz) {
+
+    // For-loop to iterate over all files names vector 
     for (int i = 0; i < files.size(); i++) {
+
+        // Declaring a dictrionary that will hold thw word counts
         map<string, int> dictionary;
+
+        // For-loop that initializes the dictionary of each word count to zero
         for (const string& word : vocabulary) {
+
+            // Setting each word count to zero
             dictionary[word] = 0;
+
         }
+
+        // Opening a file used to read data from the file
         ifstream fileStream(files[i]);
+
+        // Declaring a string auxiliar variable to read
         string line;
+
+        // While-loop that iterates over each line from the file
         while (getline(fileStream, line)) {
+
+            // Initializing an string stream with the content of line
             istringstream ss(line);
+
+            // Declaring a string auxiliar variable for word
             string word;
+
+            // While-loop to read characters until a comma is encountered
             while (getline(ss, word, ',')) {
+
+                // Checking if the word extracted from the line is found
                 if (dictionary.find(word) != dictionary.end()) {
+
+                    // If the word is found in the dictonary, increment its associaed
                     dictionary[word]++;
+
                 }
+
             }
+
         }
+
+        // For-loop to iterate over each element in the vocabulary vector
         for (int j = 0; j < vocabulary.size(); j++) {
+
+            // Storing the counts in the matrix  
             matriz[1+i][j] = to_string(dictionary[vocabulary[j]]);
+
         }
+
     }
+
 }
 
 /*
