@@ -15,7 +15,8 @@ Given a list of filenames containing texts, a filename containing the vocabulary
     - List of filenames where the texts to be analyzed are located (files are in the same location as the executable).
     - Filename containing the vocabulary and its size.
     - Number of processes to be used (equal to the number of input files).
-- Output: file containing the Bag of Words matrix in CSV format.
+- Output:
+    - file containing the Bag of Words matrix in CSV format.
 
 </br>
 
