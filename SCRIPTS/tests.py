@@ -6,60 +6,71 @@ import numpy as np
 import re
 import nltk
 import matplotlib.pyplot as plt
+from sklearn.feature_extraction.text import CountVectorizer
+
 
 """
-SECTION B): 
+SECTION B): CODE EXECUTION
 """
+# Defining etiquetas 
+etiquetas = ["libro1", "libro2", "libro3", "libro4", "libro5", "libro6"]
 
-etiquetas = ["libro1",
-             "libro2",
-             "libro3",
-             "libro4",
-             "libro5",
-             "libro6"]
+# Declaring a list
 corpus = []
 
+# Loop for reading files
 for etiqueta in etiquetas:
+
+  # Opening files
   archivo = open(etiqueta + ".txt", "r")
+
+  # reading the content and appending  to corpus list
   corpus.append(archivo.read())
+
+  # Closing archive
   archivo.close()
 
-etiquetas = ["dicke..",
-             "sha...",
-             "libro3",
-             "libro4",
-             "libro5",
-             "libro6"]
+# Printing message of job finished
+print("Reading files done")
 
+# Updating labels
+etiquetas = ["dicke..", "sha...", "libro3", "libro4", "libro5", "libro6"]
+
+# Converting Corpus to a NumPy Array
 corpus = np.array(corpus)
-df_corpus = pd.DataFrame({"documento": corpus,
-                          "categoria": etiquetas})
-df_corpus
 
+# Creating data frame
+df_corpus = pd.DataFrame({"documento": corpus, "categoria": etiquetas})
 
-"""
-SECTION C): 
-"""
+# Displaying the dataframe
+print(df_corpus)
 
-from sklearn.feature_extraction.text import CountVectorizer
-# bolsa de palabras en matriz dispersa
+# Initializing CountVectorizer
 count_vectorizer = CountVectorizer(min_df=0.0, max_df=1.0)
-matriz_conteo = count_vectorizer.fit_transform(corpus)
-matriz_conteo
 
-# ver valores diferentes de cero en la matriz dispersa
+# Tranforming the corpus
+matriz_conteo = count_vectorizer.fit_transform(corpus)
+
+# Printing the transformed corpus
 print(matriz_conteo)
 
-# ver la representación densa
+# Printing the aprese matrix
+print(matriz_conteo)
+
+# Converting to Dense Matrix
 matriz_conteo = matriz_conteo.toarray()
-matriz_conteo
 
+# Printing dense matrix
+print(matriz_conteo)
 
-# obten todas las palabras únicas del corpus
+# Extracting vocabulary
 vocabulario = count_vectorizer.get_feature_names_out()
-# muestra los vectores de características del documento
+
+# Creating pandas dataframe
 pd.DataFrame(matriz_conteo, columns=vocabulario)
 
+# Printing vocabulary information
 print(len(vocabulario), vocabulario)
 
+# Saving vocabulary to a Text File
 np.savetxt("vocab.txt", vocabulario, fmt="%s", delimiter=",")
