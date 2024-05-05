@@ -36,6 +36,8 @@ Given a list of filenames containing texts, a filename containing the vocabulary
     - Update the corresponding row in the Bag of Words matrix.
 4. Write the Bag of Words matrix to a CSV file.
 
+</br>
+
 ## Implementation
 
 - Serial Version:
