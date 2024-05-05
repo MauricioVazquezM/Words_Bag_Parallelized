@@ -35,3 +35,16 @@ Given a list of filenames containing texts, a filename containing the vocabulary
     - Count the occurrences of each word in the vocabulary.
     - Update the corresponding row in the Bag of Words matrix.
 4. Write the Bag of Words matrix to a CSV file.
+
+## Implementation
+
+- Serial Version:
+
+    - The serial version of the code processes the input files one by one in a single thread.
+    - It reads the vocabulary from a CSV file, then reads each book's content, counts the occurrences of each word from the vocabulary, and finally writes the results to a CSV file.
+      
+- Parallel Version (MPI):
+
+    - The parallel version of the code utilizes the Message Passing Interface (MPI) to distribute the workload across multiple processes.
+    - Each process reads a portion of the data, and they collaborate to process the vocabulary and count the occurrences of each word.
+    - By dividing the workload among multiple processes, the parallel version can significantly reduce the processing time, especially for large datasets. 
