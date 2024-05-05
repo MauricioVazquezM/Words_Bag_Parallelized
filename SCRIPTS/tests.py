@@ -8,7 +8,7 @@ import nltk
 import matplotlib.pyplot as plt
 
 """
-SECTION B): AUXILIAR FUNCTIONS
+SECTION B): 
 """
 
 etiquetas = ["libro1",
@@ -38,7 +38,7 @@ df_corpus
 
 
 """
-SECTION C): CODE EXECUTION
+SECTION C): 
 """
 
 from sklearn.feature_extraction.text import CountVectorizer
