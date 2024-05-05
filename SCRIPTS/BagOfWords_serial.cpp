@@ -78,7 +78,7 @@ void countWords(const vector<string>& files, const vector<string>& vocabulary, v
 /*
     FUNCTION: Write Matrix to a CSV
 */
-void writeMatrixToCSV(const std::string& filename, int** matriz, int rows, int cols) {
+void writeMatrixToCSV(const std::string& filename, std::vector<std::vector<std::string>> matriz, int rows, int cols) {
 
     // Opening an output file stream for writing the CSV file
     std::ofstream csvFile(filename);
@@ -142,7 +142,7 @@ void calculateAverageTime(double total_time, int ejecuciones) {
         csv_file.close();
 
     }
-    
+
 }
 
 
@@ -160,8 +160,8 @@ int main(int argc, char *argv[]) {
         cerr << "El archivo de palabras está vacío" << endl;
         return 1;
     }
-    int tamanio = vocabulary.size();
-    vector<vector<string>> matriz(7, vector<string>(tamanio));
+    int tamanio_voc = vocabulary.size();
+    vector<vector<string>> matriz(7, vector<string>(tamanio_voc));
     copy(vocabulary.begin(), vocabulary.end(), matriz[0].begin());
 
     vector<string> files = {
@@ -172,7 +172,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < ejecuciones; i++) {
         auto start_time = chrono::high_resolution_clock::now();
         countWords(files, vocabulary, matriz);
-        writeMatrixToCSV("data/resultados_serial.csv", matriz, tamanio);
+        writeMatrixToCSV("data/resultados_serial.csv", matriz, 7, tamanio_voc);
         auto end_time = chrono::high_resolution_clock::now();
         double iteration_time = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
         total_time += iteration_time;
