@@ -57,7 +57,7 @@ void countWords(const vector<string>& files, const vector<string>& vocabulary, v
     // For-loop to iterate over all files names vector 
     for (int i = 0; i < files.size(); i++) {
 
-        // Declaring a dictrionary that will hold thw word counts
+        // Declaring a dictionary that will hold the word counts
         map<string, int> dictionary;
 
         // For-loop that initializes the dictionary of each word count to zero
@@ -253,5 +253,5 @@ int main(int argc, char *argv[]) {
 
     // Finishing
     return 0;
-    
+
 }
