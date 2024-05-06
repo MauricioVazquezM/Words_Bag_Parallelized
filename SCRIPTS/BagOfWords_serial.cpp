@@ -186,33 +186,72 @@ void calculateAverageTime(double total_time, int ejecuciones) {
 */
 
 int main(int argc, char *argv[]) {
+
+    // Initialiazing number of iterations for testing process
     const int ejecuciones = 10;
+
+    // Initialiazing acumulate time value variable
     double total_time = 0.0;
 
+    // Declaring vector for vocabulary
     vector<string> vocabulary;
+
+    // Using our read vocabulary function
     readVocabulary("data/palabras.csv", vocabulary);
+
+    // Checking that is not an empty archive
     if (vocabulary.empty()) {
+
+        // Displaying error
         cerr << "El archivo de palabras está vacío" << endl;
+
+        // Ending
         return 1;
+
     }
+
+    // Setting up data structure size int variable
     int tamanio_voc = vocabulary.size();
+
+    // Initializing a matrix to store word counts
     vector<vector<string>> matriz(7, vector<string>(tamanio_voc));
+
+    // Copy vocabulary to the first row of the matrix
     copy(vocabulary.begin(), vocabulary.end(), matriz[0].begin());
 
+    // Declaring vector string with nmae files
     vector<string> files = {
         "data/libro1.csv", "data/libro2.csv", "data/libro3.csv",
         "data/libro4.csv", "data/libro5.csv", "data/libro6.csv"
     };
 
+    // For-loop to iterate as many times we established on ejecuciones int variable
     for (int i = 0; i < ejecuciones; i++) {
+
+        // Recording starting time of the word counting operation
         auto start_time = chrono::high_resolution_clock::now();
+
+        // Using our  count words function implementation
         countWords(files, vocabulary, matriz);
+
+        // Using our write matyrix to csv functions implementation
         writeMatrixToCSV("data/resultados_serial.csv", matriz, 7, tamanio_voc);
+
+        // Gettting the end time
         auto end_time = chrono::high_resolution_clock::now();
+
+        // Calculating the duration of each iteration
         double iteration_time = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
+
+        // Accumulating total time
         total_time += iteration_time;
+
     }
 
+    // Using ou average time execution function 
     calculateAverageTime(total_time, ejecuciones);
+
+    // Finishing
     return 0;
+    
 }
