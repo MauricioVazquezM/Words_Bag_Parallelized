@@ -180,12 +180,76 @@ void calculateAverageTime(double total_time, int ejecuciones) {
 
 }
 
+/*
+    FUNCTION: Read files names list function
+*/
+std::vector<std::string> readFileNames(const std::string& filename) {
+
+    // Initializing variable lines
+    std::vector<std::string> lines;
+
+    // Opening the files names
+    std::ifstream fileStream(filename);
+
+    // Check if the file is open
+    if (!fileStream.is_open()) {
+
+        // Printing  opening error
+        std::cerr << "Failed to open file: " << filename << std::endl;
+
+        // Return an empty vector if file cannot be opened
+        return lines; 
+
+    }
+
+    // Initializing string auxiliar variable
+    std::string line;
+
+    // Read file line by line
+    while (getline(fileStream, line)) {
+
+        // Appending on the vector
+        lines.push_back(line);
+
+    }
+
+    // Close the file after reading
+    fileStream.close();
+
+    // Returning vector
+    return lines;
+
+}
+
 
 /* 
     SECTION B) MAIN
 */
 
 int main(int argc, char *argv[]) {
+
+     // Command line argument validation: if fewer than 5 arguments are provided
+    if (argc < 5) {
+
+        // Displaying usage message
+        cerr << "Usage: " << argv[0] << "<listado_nombres_archivos.txt> <archivo_vocabulario.txt> <tamanio_vocabulario> <output_file.csv> \n";
+
+        // Program exit
+        return 1;
+
+    }
+
+    // Storing the first command-line argument (argv[1]) as files_names
+    const string files_names = argv[1];
+
+    // Storing the second command-line argument (argv[2]) as arch_vocabulario
+    const string arch_vocabulario = argv[2];
+
+    // Storing the third command-line argument (argv[3]) as tamanio_voc
+    const int tamanio_voc = atoi(argv[3]);
+
+    // Storing the fourth command-line argument (argv[4]) as output_file
+    const string output_file_name = argv[4];
 
     // Initialiazing number of iterations for testing process
     const int ejecuciones = 10;
@@ -197,9 +261,9 @@ int main(int argc, char *argv[]) {
     vector<string> vocabulary;
 
     // Using our read vocabulary function
-    readVocabulary("data/palabras.csv", vocabulary);
+    readVocabulary(arch_vocabulario, vocabulary);
 
-    // Checking that is not an empty archive
+    // Checking that is not empty 
     if (vocabulary.empty()) {
 
         // Displaying error
@@ -210,20 +274,14 @@ int main(int argc, char *argv[]) {
 
     }
 
-    // Setting up data structure size int variable
-    int tamanio_voc = vocabulary.size();
-
     // Initializing a matrix to store word counts
     vector<vector<string>> matriz(7, vector<string>(tamanio_voc));
 
     // Copy vocabulary to the first row of the matrix
     copy(vocabulary.begin(), vocabulary.end(), matriz[0].begin());
 
-    // Declaring vector string with nmae files
-    vector<string> files = {
-        "data/libro1.csv", "data/libro2.csv", "data/libro3.csv",
-        "data/libro4.csv", "data/libro5.csv", "data/libro6.csv"
-    };
+    // Getting files names with our function 
+    std::vector<std::string> files = readFileNames(files_names);
 
     // For-loop to iterate as many times we established on ejecuciones int variable
     for (int i = 0; i < ejecuciones; i++) {
@@ -235,7 +293,7 @@ int main(int argc, char *argv[]) {
         countWords(files, vocabulary, matriz);
 
         // Using our write matyrix to csv functions implementation
-        writeMatrixToCSV("data/resultados_serial.csv", matriz, 7, tamanio_voc);
+        writeMatrixToCSV(output_file_name, matriz, 7, tamanio_voc);
 
         // Gettting the end time
         auto end_time = chrono::high_resolution_clock::now();
