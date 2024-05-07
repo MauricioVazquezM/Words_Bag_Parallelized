@@ -123,6 +123,8 @@ void writeMatrixToCSV(const std::string& filename, std::vector<std::vector<std::
 
         // Printing error message and closing
         std::cerr << "Failed to open file: " << filename << std::endl;
+
+        // Exiting
         return;
 
     }
@@ -138,7 +140,10 @@ void writeMatrixToCSV(const std::string& filename, std::vector<std::vector<std::
 
             // Adding a comma unless it's the last element in the row
             if (j != cols - 1) {
+
+                // Adding comma
                 csvFile << ",";
+                
             }
 
         }
