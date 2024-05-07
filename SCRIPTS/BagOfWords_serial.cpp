@@ -272,7 +272,7 @@ int main(int argc, char *argv[]) {
     if (vocabulary.empty()) {
 
         // Displaying error
-        cerr << "El archivo de palabras está vacío" << endl;
+        cerr << "El archivo de palabras esta vacio" << endl;
 
         // Ending
         return 1;
