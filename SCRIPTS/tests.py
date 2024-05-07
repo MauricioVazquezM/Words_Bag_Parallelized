@@ -4,7 +4,7 @@ SECTION A): LIBRARIES
 import pandas as pd
 import numpy as np
 import re
-import nltk
+from nltk import stopwords
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -12,6 +12,13 @@ from sklearn.feature_extraction.text import CountVectorizer
 """
 SECTION B): CODE EXECUTION
 """
+
+# Download the stopwords dataset from NLTK if not already done
+nltk.download('stopwords')
+
+# Loop for reading files and removing stopwords
+stop_words = set(stopwords.words('english'))
+
 # Defining etiquetas 
 etiquetas = ["libro1", "libro2", "libro3", "libro4", "libro5", "libro6"]
 
@@ -22,10 +29,13 @@ corpus = []
 for etiqueta in etiquetas:
 
   # Opening files
-  archivo = open(etiqueta + ".txt", "r")
+  archivo = open("DATA/" + etiqueta + ".txt", "r")
+
+  # Reading book content
+  content = archivo.read()
 
   # reading the content and appending  to corpus list
-  corpus.append(archivo.read())
+  corpus.append(content)
 
   # Closing archive
   archivo.close()
@@ -34,7 +44,7 @@ for etiqueta in etiquetas:
 print("Reading files done")
 
 # Updating labels
-etiquetas = ["dicke..", "sha...", "libro3", "libro4", "libro5", "libro6"]
+# etiquetas = ["dicke..", "sha...", "libro3", "libro4", "libro5", "libro6"]
 
 # Converting Corpus to a NumPy Array
 corpus = np.array(corpus)
@@ -46,7 +56,7 @@ df_corpus = pd.DataFrame({"documento": corpus, "categoria": etiquetas})
 print(df_corpus)
 
 # Initializing CountVectorizer
-count_vectorizer = CountVectorizer(min_df=0.0, max_df=1.0)
+count_vectorizer = CountVectorizer(min_df=0.0, max_df=1.0, stop_words='english')
 
 # Tranforming the corpus
 matriz_conteo = count_vectorizer.fit_transform(corpus)
@@ -73,4 +83,4 @@ pd.DataFrame(matriz_conteo, columns=vocabulario)
 print(len(vocabulario), vocabulario)
 
 # Saving vocabulary to a Text File
-np.savetxt("vocab.txt", vocabulario, fmt="%s", delimiter=",")
+np.savetxt("DATA/vocab.txt", vocabulario, fmt="%s", delimiter=",")
