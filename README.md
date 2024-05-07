@@ -50,3 +50,8 @@ Given a list of filenames containing texts, a filename containing the vocabulary
     - The parallel version of the code utilizes the Message Passing Interface (MPI) to distribute the workload across multiple processes.
     - Each process reads a portion of the data, and they collaborate to process the vocabulary and count the occurrences of each word.
     - By dividing the workload among multiple processes, the parallel version can significantly reduce the processing time, especially for large datasets. 
+
+</br>
+
+## Instructions
+
