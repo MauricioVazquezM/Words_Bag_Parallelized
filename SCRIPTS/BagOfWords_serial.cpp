@@ -267,18 +267,18 @@ int main(int argc, char *argv[]) {
 
     // Using our read vocabulary function
     readVocabulary(arch_vocabulario, vocabulary);
-
+/*
     // Checking that is not empty 
     if (vocabulary.empty()) {
 
         // Displaying error
         cerr << "El archivo de palabras esta vacio" << endl;
 
-        // Ending
+        //Ending
         return 1;
 
     }
-
+*/
     // Initializing a matrix to store word counts
     vector<vector<string>> matriz(7, vector<string>(tamanio_voc));
 
