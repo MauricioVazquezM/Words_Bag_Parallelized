@@ -186,7 +186,7 @@ void calculateAverageTime(double total_time, int ejecuciones) {
 }
 
 /*
-    FUNCTION: Read files names list function
+    FUNCTION: Read files names list 
 */
 std::vector<std::string> readFileNames(const std::string& filename) {
 
@@ -228,7 +228,7 @@ std::vector<std::string> readFileNames(const std::string& filename) {
 
 
 /* 
-    SECTION B) MAIN
+    SECTION C) MAIN
 */
 
 int main(int argc, char *argv[]) {

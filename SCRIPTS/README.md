@@ -32,41 +32,49 @@ using namespace std;
 
 ## Functions
 
-### Function 1
+### Function Read Vocabulary
 
-- Description
-
-```cpp
-
-```
-
-### Function 2
-
-- Description
+- Designed to read words from a specified text file and store them in a vector. This function exemplifies basic file I/O operations, string manipulation, and vector handling in C++.
 
 ```cpp
 
 ```
 
-### Function 3
+### Function Count Words
 
-- Description
-
-```cpp
-
-```
-
-### Function 4
-
-- Description
+- Designed to read multiple text files, count how often each word from a provided vocabulary appears in each file, and record these counts in a matrix for further analysis or reporting.
 
 ```cpp
 
 ```
 
-### Function 5
+### Function Write Matrix to a CSV
 
-- Description
+- Designed to export data stored in a matrix format into a CSV file. This is useful for saving structured data that can be easily viewed and analyzed in spreadsheet software or processed by other programs.
+
+```cpp
+
+```
+
+### Function Calculate Average Time
+
+- Designed to compute the average time taken for a series of operations (such as file processing or computation tasks) and report this time in seconds. It also logs this data to a CSV file, which can be used for further analysis or visualization (e.g., plotting execution times).
+
+```cpp
+
+```
+
+### Function Read Files Names List
+
+- Designed to read a list of filenames from a text file, where each filename is expected to be on a separate line. This function is particularly useful when you need to process multiple files dynamically, based on a list provided in a configuration file or a directory listing saved to a file. 
+
+```cpp
+
+```
+
+### Main
+
+- Executing program on main.
 
 ```cpp
 
