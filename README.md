@@ -55,3 +55,6 @@ Given a list of filenames containing texts, a filename containing the vocabulary
 
 ## Instructions
 
+```powershell
+/BagOfWords_serial.exe ../DATA/files_names.txt ../DATA/vocab.txt 15164 results_serial.csv
+```
