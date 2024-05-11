@@ -58,13 +58,13 @@ Given a list of filenames containing texts, a filename containing the vocabulary
 - To run the program, navigate to the "Words_Bag_Parallelized" folder level and execute the following command in your console.
 - NOTE: Depending on your choice, change the name of your executable. Before running the program, you must compile one of the two: either the serial or the parallelized version.
 
-- ***Serial Execution Console Code***
+***Serial Execution Console Code***
 
 ```powershell
 /BagOfWords_serial.exe ../DATA/files_names.txt ../DATA/vocab.txt 15164 results_serial.csv
 ```
 
-- ***Parallelized Execution Console Code***
+***Parallelized Execution Console Code***
 ```powershell
 
 ```
