@@ -29,3 +29,45 @@
 #include <chrono>
 using namespace std;
 ```
+
+## Functions
+
+### Function 1
+
+- Description
+
+```cpp
+
+```
+
+### Function 2
+
+- Description
+
+```cpp
+
+```
+
+### Function 3
+
+- Description
+
+```cpp
+
+```
+
+### Function 4
+
+- Description
+
+```cpp
+
+```
+
+### Function 5
+
+- Description
+
+```cpp
+
+```
