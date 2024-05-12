@@ -309,6 +309,9 @@ int main(int argc, char *argv[]) {
         // Accumulating total time
         total_time += iteration_time;
 
+        // Displaying the time execution
+        cout << "Tiempo de ejecucion: "<< iteration_time/1000 << " segundos \n";
+
     }
 
     // Using ou average time execution function 
