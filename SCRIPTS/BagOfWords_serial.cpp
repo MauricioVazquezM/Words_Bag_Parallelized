@@ -170,7 +170,7 @@ void calculateAverageTime(double total_time, int ejecuciones) {
     cout << "Promedio de tiempo de ejecucion: " << avg_time << " segundos" << endl;
 
     // Writing the average time on a CSV for plotting purposes
-    ofstream csv_file("data/tiempo_serial.csv");
+    ofstream csv_file("tiempo_serial.csv");
 
     // Checking that the file stream is open
     if (csv_file.is_open()){
