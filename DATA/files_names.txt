@@ -1,6 +1,6 @@
-DATA/libro1.txt
-DATA/libro2.txt
-DATA/libro3.txt
-DATA/libro4.txt
-DATA/libro5.txt
-DATA/libro6.txt
+../DATA/libro1.txt
+../DATA/libro2.txt
+../DATA/libro3.txt
+../DATA/libro4.txt
+../DATA/libro5.txt
+../DATA/libro6.txt
