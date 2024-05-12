@@ -288,6 +288,23 @@ int main(int argc, char *argv[]) {
     // Getting files names with our function 
     std::vector<std::string> files = readFileNames(files_names);
 
+    // Opening a file to write iteration times
+    std::ofstream csvFile("iteration_times_serial.csv");
+
+    // Check if the file is open
+    if (!csvFile.is_open()) {
+
+        // Displaying error
+        cerr << "Failed to open iteration times file." << endl;
+        
+        // Exit if file cannot be opened
+        return 1;  
+
+    }
+
+    // Writing header
+    csvFile << "Iteration Time Serial (ms)" ;
+
     // For-loop to iterate as many times we established on ejecuciones int variable
     for (int i = 0; i < ejecuciones; i++) {
 
@@ -309,10 +326,16 @@ int main(int argc, char *argv[]) {
         // Accumulating total time
         total_time += iteration_time;
 
-        // Displaying the time execution
+        // Displaying the time execution on console
         cout << "Tiempo de ejecucion: "<< iteration_time/1000 << " segundos \n";
 
+        // Writing iteration execution time on CSV
+        csvFile << "," << iteration_time;
+
     }
+
+    // Closing the file stream
+    csvFile.close();
 
     // Using ou average time execution function 
     calculateAverageTime(total_time, ejecuciones);
