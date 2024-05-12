@@ -56,7 +56,7 @@ Given a list of filenames containing texts, a filename containing the vocabulary
 ## Instructions
 
 - To run the program, navigate to the "Words_Bag_Parallelized" folder level and execute the following command in your console.
-- NOTE: Depending on your choice, change the name of your executable. Before running the program, you must compile one of the two: either the serial or the parallelized version.
+- NOTE: Before running the program, you must compile one of the two: either the serial or the parallelized version.
 
 ***Serial Execution Console Code***
 
