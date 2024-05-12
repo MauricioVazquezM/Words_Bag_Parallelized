@@ -61,7 +61,7 @@ Given a list of filenames containing texts, a filename containing the vocabulary
 ***Serial Execution Console Code***
 
 ```powershell
-./BagOfWords_serial.exe ../DATA/files_names.txt ../DATA/vocab.txt 15164 results_serial.csv
+./BagOfWords_serial.exe ../DATA/files_names.txt ../DATA/vocab.txt 15170 results_serial.csv
 ```
 
 ***Parallelized Execution Console Code***
