@@ -1,4 +1,4 @@
-# Words_Bag_Parallelized
+# Words Bag Parallelized
 
 <p align="center">
   <img width="800" height="500" src="https://hoctructuyen123.net/wp-content/uploads/2019/07/Untitled.png">
