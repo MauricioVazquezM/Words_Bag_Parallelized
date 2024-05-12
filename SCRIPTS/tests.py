@@ -29,7 +29,7 @@ corpus = []
 for etiqueta in etiquetas:
 
   # Opening files
-  archivo = open("DATA/" + etiqueta + ".txt", "r")
+  archivo = open("../DATA/" + etiqueta + ".txt", "r")
 
   # Reading book content
   content = archivo.read()
@@ -83,4 +83,4 @@ pd.DataFrame(matriz_conteo, columns=vocabulario)
 print(len(vocabulario), vocabulario)
 
 # Saving vocabulary to a Text File
-np.savetxt("DATA/vocab.txt", vocabulario, fmt="%s", delimiter=",")
+np.savetxt("../DATA/vocab.txt", vocabulario, fmt="%s", delimiter=",")
