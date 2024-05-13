@@ -263,3 +263,12 @@ std::vector<std::string> readFileNames(const std::string& filename) {
 ```cpp
 
 ```
+
+## MPI Directives
+
+- ***MPI_Init(&argc, &argv)***:
+  - Description: Initializes the MPI execution environment.
+  - Parameters:
+     - argc: Pointer to the number of arguments passed to the program.
+     - argv: Pointer to the array of command-line arguments.
+  - Return Value: Integer value indicating success or failure.
