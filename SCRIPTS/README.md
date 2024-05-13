@@ -272,3 +272,41 @@ std::vector<std::string> readFileNames(const std::string& filename) {
      - argc: Pointer to the number of arguments passed to the program.
      - argv: Pointer to the array of command-line arguments.
   - Return Value: Integer value indicating success or failure.
+
+- ***MPI_Comm_size(MPI_COMM_WORLD, &num_processes)***:
+  - Description: Determines the total number of processes in a communicator.
+  - Parameters:
+     - MPI_COMM_WORLD: Communicator that represents all processes.
+     - num_processes: Pointer to an integer variable to store the size of the communicator.
+  - Return Value: Integer value indicating success or failure.
+
+- ***MPI_Comm_rank(MPI_COMM_WORLD, &process_id)***:
+  - Description: Determines the rank of the calling process in the communicator.
+  - Parameters:
+    - MPI_COMM_WORLD: Communicator that represents all processes.
+    - process_id: Pointer to an integer variable to store the rank of the calling process.
+  - Return Value: Integer value indicating success or failure.
+ 
+- ***MPI_Bcast(&pointer, 1, MPI_INT, 0, MPI_COMM_WORLD)***:
+  - Description: Broadcasts a message from the process with rank 0 to all other processes in a communicator.
+  - Parameters:
+    - &pointer: Pointer to the data to be broadcasted.
+    - 1: Number of elements in the broadcast buffer.
+    - MPI_INT: Data type of the broadcast buffer.
+    - 0: Rank of the process broadcasting the data.
+    - MPI_COMM_WORLD: Communicator that represents all processes.
+  - Return Value: Integer value indicating success or failure.
+
+- ***MPI_Gather***:
+  - Description: Gathers data from all processes in a communicator to one process.
+  - Parameters:
+    - Various parameters specifying send buffer, receive buffer, counts, data types, etc.
+  - Return Value: Integer value indicating success or failure.
+
+- ***MPI_Reduce***:
+  - Description: Reduces values on all processes to a single value on a single process.
+  - Parameters:
+  - Various parameters specifying send buffer, receive buffer, counts, data types, reduction operation, etc.
+  - Return Value: Integer value indicating success or failure.
+
+These directives are part of the MPI (Message Passing Interface) standard, commonly used for parallel programming on distributed-memory systems.
