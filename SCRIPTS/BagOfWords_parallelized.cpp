@@ -262,7 +262,7 @@ int main(int argc, char *argv[]) {
 
     // Checking if the necessary arguments are passed
     if (argc < 5) {
-
+        
         if (process_id == 0) {
 
             cerr << "Usage: " << argv[0] << " <listado_nombres_archivos.txt> <archivo_vocabulario.txt> <tamanio_vocabulario> <output_file.csv>\n";
@@ -369,8 +369,10 @@ int main(int argc, char *argv[]) {
     vector<vector<string>> matriz(7, vector<string>(tamanio_voc));
 
     if (process_id == 0) {
+
         // copying the vocabulary
         copy(vocabulary.begin(), vocabulary.end(), matriz[0].begin());
+        
     }
 
     // MPI_Gather to collect the counted words from each process
@@ -384,13 +386,14 @@ int main(int argc, char *argv[]) {
     */
     MPI_Gather(matriz.data() + 1, 6, MPI_DOUBLE, all.data() + 1, 6, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    // Writing the matrix to a .csv
+    /*
     if (process_id == 0) {
 
         // Using our write matyrix to csv functions implementation
         writeMatrixToCSV(output_file_name, all, 7, tamanio_voc);
 
     }
+    */
 
     // Defining auxiliar variables to track time execution
     double start_time;
@@ -412,6 +415,14 @@ int main(int argc, char *argv[]) {
         // Using our  count words function implementation
         countWords(files, vocabulary, matriz);
 
+        // Writing the matrix to a .csv
+        if (process_id == 0) {
+
+            // Using our write matyrix to csv functions implementation
+            writeMatrixToCSV(output_file_name, all, 7, tamanio_voc);
+
+        }
+
         /*
             MPI_Wtime() is a function provided by MPI used in parallel programming, 
             particularly on distributed memory systems. This function is 
@@ -422,6 +433,7 @@ int main(int argc, char *argv[]) {
         */
         end_time = MPI_Wtime();
 
+        //
         double iteration_time = end_time - start_time;
         double total_iteration_time = 0.0;
 
@@ -437,8 +449,12 @@ int main(int argc, char *argv[]) {
         */
         MPI_Reduce(&iteration_time, &total_iteration_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
         
+        // 
         if (process_id == 0) {
-            total_time += total_iteration_time;
+
+            //
+            total_time += iteration_time;
+
         }
 
     }
@@ -456,5 +472,5 @@ int main(int argc, char *argv[]) {
 
     // Finishing program
     return 0;
-    
+
 }
