@@ -306,7 +306,7 @@ std::vector<std::string> readFileNames(const std::string& filename) {
 - ***MPI_Reduce***:
   - Description: Reduces values on all processes to a single value on a single process.
   - Parameters:
-  - Various parameters specifying send buffer, receive buffer, counts, data types, reduction operation, etc.
-  - Return Value: Integer value indicating success or failure.
+    - Various parameters specifying send buffer, receive buffer, counts, data types, reduction operation, etc.
+    - Return Value: Integer value indicating success or failure.
 
 These directives are part of the MPI (Message Passing Interface) standard, commonly used for parallel programming on distributed-memory systems.
