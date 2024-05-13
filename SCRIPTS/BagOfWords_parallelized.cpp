@@ -433,7 +433,7 @@ int main(int argc, char *argv[]) {
         */
         end_time = MPI_Wtime();
 
-        //
+        // Getting total iteration time
         double iteration_time = end_time - start_time;
         double total_iteration_time = 0.0;
 
