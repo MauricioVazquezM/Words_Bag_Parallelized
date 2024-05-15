@@ -261,7 +261,251 @@ std::vector<std::string> readFileNames(const std::string& filename) {
 - Executing program on main.
 
 ```cpp
+/* 
+    SECTION C) MAIN
+*/
 
+int main(int argc, char *argv[]) {
+
+    // Initializing MPI
+    MPI_Init(&argc, &argv);
+
+    // Initializing the total number of processes and each process_id
+    int num_processes = 6;
+
+    // Initializing each process_id
+    int process_id;
+
+    /*
+        MPI_Comm_size retrieves the total number of processes in the communicator specified 
+        by the user. This is crucial for determining how many processes are available for 
+        distributing work and for designing the division of tasks in parallel algorithms.
+    */
+    MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
+
+    /*
+        MPI_Comm_rank determines the rank (or unique identifier) of the calling process within 
+        the specified communicator. Each process in a communicator is assigned a unique rank 
+        starting from 0 up to the number of processes minus one. This rank is used to address 
+        processes individually, often for sending and receiving messages, and for conditionally 
+        executing parts of the code based on the process rank.
+    */
+    MPI_Comm_rank(MPI_COMM_WORLD, &process_id);
+
+    // Checking if the necessary arguments are passed
+    if (argc < 5) {
+        
+        if (process_id == 0) {
+
+            cerr << "Usage: " << argv[0] << " <listado_nombres_archivos.txt> <archivo_vocabulario.txt> <tamanio_vocabulario> <output_file.csv>\n";
+
+        }
+
+        /*
+            MPI_Finalize() is a function from the Message Passing Interface (MPI) library, 
+            which is used for programming parallel applications, particularly on distributed 
+            memory systems. This function plays a crucial role in the lifecycle of an MPI 
+            application by serving as the termination point for MPI functionality in your program.
+        */
+        MPI_Finalize();
+        
+        // Finishing program
+        return 1;
+    }
+
+    // Storing the first command-line argument (argv[1]) as files_names
+    const string files_names = argv[1];
+
+    // Storing the second command-line argument (argv[2]) as arch_vocabulario
+    const string arch_vocabulario = argv[2];
+
+    // Storing the third command-line argument (argv[3]) as tamanio_voc
+    const int tamanio_voc = atoi(argv[3]);
+
+    // Storing the fourth command-line argument (argv[4]) as output_file
+    const string output_file_name = argv[4];
+
+    // Initialiazing number of iterations for testing process
+    const int ejecuciones = 10;
+
+    // Initialiazing acumulate time value variable
+    double total_time = 0.0;
+
+    // Declaring vector for vocabulary
+    vector<string> vocabulary;
+
+    //
+    vector<string> files;
+
+    // Master reads the vocabulary and the file names
+    if (process_id == 0) {
+
+        // Using our read vocabulary function
+        readVocabulary(arch_vocabulario, vocabulary);
+
+        // 
+        files = readFileNames(files_names);
+
+    }
+
+    //
+    int vocab_size = vocabulary.size();
+
+    /*
+        MPI_Bcast is a collective communication function provided by MPI, which is 
+        extensively used in parallel programming, especially within distributed memory 
+        systems. This function broadcasts a message from the root process to all other 
+        processes in a communicator.
+    */
+    MPI_Bcast(&vocab_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+    if (process_id != 0) {
+
+        // All processes resize the vocabulary vector to match the size
+        vocabulary.resize(vocab_size);
+
+    }
+
+    // For loop to broadcast vocabulary words
+    for (int i = 0; i < vocab_size; i++) {
+        int len;
+
+        if (process_id == 0) {
+            len = vocabulary[i].length();
+        }
+
+        /*
+            MPI_Bcast is a collective communication function provided by MPI, which is 
+            extensively used in parallel programming, especially within distributed memory 
+            systems. This function broadcasts a message from the root process to all other 
+            processes in a communicator.
+        */
+        MPI_Bcast(&len, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+        if (process_id != 0) {
+            vocabulary[i].resize(len);
+        }
+
+        /*
+            MPI_Bcast is a collective communication function provided by MPI, which is 
+            extensively used in parallel programming, especially within distributed memory 
+            systems. This function broadcasts a message from the root process to all other 
+            processes in a communicator.
+        */
+        MPI_Bcast(const_cast<char *>(vocabulary[i].data()), len, MPI_CHAR, 0, MPI_COMM_WORLD);
+
+    }
+
+    // Here the word counts are stored: 7 rows for 7 books,
+    // columns contain the word and the count of how many times it appears
+    vector<vector<string>> matriz(7, vector<string>(tamanio_voc));
+
+    if (process_id == 0) {
+
+        // copying the vocabulary
+        copy(vocabulary.begin(), vocabulary.end(), matriz[0].begin());
+        
+    }
+
+    // MPI_Gather to collect the counted words from each process
+    vector<vector<string>> all(matriz);
+
+    /*
+        MPI_Gather is a collective communication function in the MPI used in parallel 
+        programming, particularly effective in distributed memory systems. This function 
+        gathers data from all processes in a communicator and collects it into a single data 
+        array in a designated root process.
+    */
+    MPI_Gather(matriz.data() + 1, 6, MPI_DOUBLE, all.data() + 1, 6, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    /*
+    if (process_id == 0) {
+
+        // Using our write matyrix to csv functions implementation
+        writeMatrixToCSV(output_file_name, all, 7, tamanio_voc);
+
+    }
+    */
+
+    // Defining auxiliar variables to track time execution
+    double start_time;
+    double end_time;
+
+    // Calculating the execution time for each iteration
+    for (int i = 0; i < ejecuciones; i++) {
+
+        /*
+            MPI_Wtime() is a function provided by the MPI used in parallel programming,
+            particularly on distributed memory systems. This function is 
+            part of MPI's timing interface, which is designed to offer a portable way to 
+            measure elapsed time. It is especially useful in performance evaluations of parallel 
+            applications, where understanding the timing of operations across different 
+            processes is crucial.
+        */
+        start_time = MPI_Wtime();
+
+        // Using our  count words function implementation
+        countWords(files, vocabulary, matriz);
+
+        // Writing the matrix to a .csv
+        if (process_id == 0) {
+
+            // Using our write matyrix to csv functions implementation
+            writeMatrixToCSV(output_file_name, all, 7, tamanio_voc);
+
+        }
+
+        /*
+            MPI_Wtime() is a function provided by MPI used in parallel programming, 
+            particularly on distributed memory systems. This function is 
+            part of MPI's timing interface, which is designed to offer a portable way to 
+            measure elapsed time. It is especially useful in performance evaluations of parallel 
+            applications, where understanding the timing of operations across different 
+            processes is crucial.
+        */
+        end_time = MPI_Wtime();
+
+        // Getting total iteration time
+        double iteration_time = end_time - start_time;
+        double total_iteration_time = 0.0;
+
+        // Displaying the time execution
+        cout << "Tiempo de ejecucion: "<< iteration_time/1000 << " segundos \n";
+
+        /*
+            MPI_Reduce is a collective communication function in the Message Passing Interface (MPI) 
+            used in parallel programming, particularly effective in distributed memory systems. This 
+            function is part of a family of operations known as reduction operations, which help 
+            perform a specific operation across values held by all processes in a group and then 
+            send the result to one process in the group.
+        */
+        MPI_Reduce(&iteration_time, &total_iteration_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+        
+        // 
+        if (process_id == 0) {
+
+            //
+            total_time += iteration_time;
+
+        }
+
+    }
+
+    // Calculating the avarge time 
+    calculateAverageTime(total_time, ejecuciones);
+
+    /*
+        MPI_Finalize() is a function from the Message Passing Interface (MPI) library, 
+        which is used for programming parallel applications, particularly on distributed 
+        memory systems. This function plays a crucial role in the lifecycle of an MPI 
+        application by serving as the termination point for MPI functionality in your program.
+    */
+    MPI_Finalize();
+
+    // Finishing program
+    return 0;
+
+}
 ```
 
 ## MPI Directives
